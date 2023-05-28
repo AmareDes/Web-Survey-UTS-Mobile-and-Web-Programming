@@ -26,4 +26,18 @@ class Pages extends BaseController
         ];
         return view('pages/survey_list', $data);
     }
+    public function data_survey()
+    {
+        $data = [
+            'tittle' => 'Survey 2'
+        ];
+        return view('pages/data_survey', $data);
+    }
+    public function lihat_data()
+    {
+        $data = [
+            'tittle' => 'Survey List 2'
+        ];
+        return view('pages/lihat_data', $data);
+    }
 }

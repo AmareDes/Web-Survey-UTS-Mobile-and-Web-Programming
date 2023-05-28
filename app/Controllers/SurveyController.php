@@ -12,6 +12,7 @@ class SurveyController extends BaseController
         return view('pages/survey');
     }
 
+
     public function store()
     {
         // Validasi data
@@ -45,7 +46,34 @@ class SurveyController extends BaseController
             }
         }
 
-        return redirect()->to('/')->with('success', 'Survei berhasil ditambahkan.');
+        // Ambil data survei yang telah disimpan
+        $savedSurveys = $surveyModel->findAll(); // Mengambil semua data survei dari database
+
+        // Simpan data survei dalam array $surveys
+        $surveys = [];
+        foreach ($savedSurveys as $savedSurvey) {
+            $survey = [
+                'judul_survey' => $savedSurvey['judul_survey'],
+                'deskripsi' => $savedSurvey['deskripsi'],
+                'tanggal_dibuat' => $savedSurvey['tanggal_dibuat'],
+                'pertanyaan' => [],
+            ];
+
+            // Ambil pertanyaan yang terkait dengan survei
+            $questions = $questionModel->where('id_survey', $savedSurvey['id_survey'])->findAll(); // Mengambil pertanyaan terkait dengan survei dari database
+
+            foreach ($questions as $question) {
+                $survey['pertanyaan'][] = [
+                    'pertanyaan' => $question['pertanyaan'],
+                    'tipe_pertanyaan' => $question['tipe_pertanyaan'],
+                    'jawaban' => $question['jawaban'],
+                ];
+            }
+
+            $surveys[] = $survey;
+        }
+
+        return redirect()->to('survey/survey_list')->with('success', 'Survei berhasil ditambahkan.');
     }
 
     // Metode lainnya...

@@ -6,9 +6,10 @@
     <div class="container">
         <div class="container-fluid" style="display: flex; justify-content: center;">
             <a class="navbar-brand" href="/">Beranda</a>
-            <a class="navbar-brand" href="/pages/survey">Survey</a>
-            <a class="navbar-brand" href="/pages/survey_list">Survey List</a>
+            <a class="navbar-brand" href="/pages/data_survey">Survey</a>
+            <a class="navbar-brand" href="/pages/lihat_data">Data Survey</a>
             <a class="navbar-brand" href="/anime">Anime Favorit</a>
         </div>
     </div>
+
 </nav>

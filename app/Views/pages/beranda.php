@@ -4,27 +4,12 @@
 <div class="container">
     <div class="row">
         <div class="text">
-            <h2>Biodata Aldi Putra Widyansyah</h2>
-            <p>UNIVERSITAS ISLAM NEGERI SUNAN AMPEL SURABAYA</p>
+            <h2>Web Survey</h2>
+            <p>SURVEY BERBAGAI HIBURAN (JANGAN DIPERCAYA KARENA NGARANG)</p>
 
             <br>
-            <img src="https://media.licdn.com/dms/image/C4E03AQHf3yFnx4pR_w/profile-displayphoto-shrink_200_200/0/1637392568071?e=1686182400&v=beta&t=kuY7qAAlLAGOkc0N_6YnTMcfBJd_isOmoWbZWyimECM" alt="fotoku">
+            <img src="https://cor-cdn-static.bibliocommons.com/list_jacket_covers/live/1406410977.png" alt="fotoanime">
             <br>
-
-            <?php
-
-            $nama = "Aldi Putra Widyansyah";
-            $umur = 20;
-            $pekerjaan = "Mahasiswa";
-            $alamat = "Tebel Barat RT 01 RW 01";
-
-
-            echo "<p>Nama: " . $nama . "</p>";
-            echo "<p>Umur: " . $umur . "</p>";
-            echo "<p>Pekerjaan: " . $pekerjaan . "</p>";
-            echo "<p>Alamat: " . $alamat . "</p>";
-
-            ?>
 
             <?php
             echo "<p>Sekarang tanggal: " . date("d M Y") . "</p>";

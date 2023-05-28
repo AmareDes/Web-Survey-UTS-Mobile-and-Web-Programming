@@ -39,6 +39,49 @@
                         <br><br>
                     </div>
                 </div>
+
+                <div id="post-container">
+                    <div class="post">
+                        <?php
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                            $db = new mysqli("localhost", "root", "", "registrasi");
+
+                            $judul = $_POST['title'];
+                            $deskripsi = $_POST['description'];
+                            $tanggal = $_POST['date'];
+
+                            $sql = "INSERT INTO tabel_survey (judul_survey, deskripsi, tanggal_dibuat) VALUES ('$judul', '$deskripsi', '$tanggal')";
+
+                            if ($db->query($sql) === TRUE) {
+                                $survey_id = $db->insert_id;
+                                echo "Data telah tersimpan";
+
+                                if (isset($_POST['pertanyaan'])) {
+                                    $pertanyaan = $_POST['pertanyaan'];
+                                    $tipe_pertanyaan = $_POST['tipe_pertanyaan'];
+                                    $jawaban_pendek = $_POST['jawaban_pendek'];
+                                    $skala_likert = $_POST['skala_likert'];
+
+                                    for ($i = 0; $i < count($pertanyaan); $i++) {
+                                        $pertanyaan_value = $pertanyaan[$i];
+                                        $tipe_pertanyaan_value = $tipe_pertanyaan[$i];
+                                        $jawaban_pendek_value = isset($jawaban_pendek[$i]) ? $jawaban_pendek[$i] : "";
+                                        $skala_likert_value = isset($skala_likert[$i]) ? $skala_likert[$i] : "";
+
+                                        $sql_pertanyaan = "INSERT INTO tabel_pertanyaan (id_survey, pertanyaan, tipe_pertanyaan, jawaban_pendek, skala_likert) VALUES ($survey_id, '$pertanyaan_value', '$tipe_pertanyaan_value', '$jawaban_pendek_value', '$skala_likert_value')";
+
+                                        if ($db->query($sql_pertanyaan) !== TRUE) {
+                                            echo "Error: " . $sql_pertanyaan . "<br>" . $db->error;
+                                        }
+                                    }
+                                }
+                            } else {
+                                echo "Error: " . $sql . "<br>" . $db->error;
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
                 <button type="button" onclick="addQuestion()">Tambah Pertanyaan</button>
                 <br><br>
                 <button type="submit">Simpan</button>
@@ -85,11 +128,11 @@
             likertScaleDiv.className = 'likert-scale';
             likertScaleDiv.innerHTML = `
                 <label for="likert">Skala Likert:</label><br>
-                <label><input type="radio" name="skala_likert[]" value="Sangat Tidak Setuju">Sangat Tidak Setuju</label><br>
-                <label><input type="radio" name="skala_likert[]" value="Tidak Setuju">Tidak Setuju</label><br>
-                <label><input type="radio" name="skala_likert[]" value="Netral">Netral</label><br>
-                <label><input type="radio" name="skala_likert[]" value="Setuju">Setuju</label><br>
-                <label><input type="radio" name="skala_likert[]" value="Sangat Setuju">Sangat Setuju</label><br><br>
+                <label><input type="radio" name="skala_likert[]" value="Sangat Tidak Setuju">Sangat Tidak Setuju</label>
+                <label><input type="radio" name="skala_likert[]" value="Tidak Setuju">Tidak Setuju</label>
+                <label><input type="radio" name="skala_likert[]" value="Netral">Netral</label>
+                <label><input type="radio" name="skala_likert[]" value="Setuju">Setuju</label>
+                <label><input type="radio" name="skala_likert[]" value="Sangat Setuju">Sangat Setuju</label>
             `;
             optionsDiv.appendChild(likertScaleDiv);
         }
