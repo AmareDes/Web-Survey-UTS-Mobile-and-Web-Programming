@@ -39,7 +39,7 @@
 <body style="background-image: url(https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg);">
     <script language="javascript">
         function tampil() {
-            alert(document.getElementById("NAMA").value);
+            alert(document.getElementById("JUDUL_SURVEY").value);
         }
     </script>
     <form method="post" enctype="multipart/form-data">
@@ -123,7 +123,7 @@ if (isset($_POST['SUBMIT'])) {
     $pertanyaan_survey = $_POST['PERTANYAAN'];
     $jawaban_survey = $_POST['JAWABAN'];
 
-    $sql = "INSERT INTO data_siswa (JUDUL_SURVEY, TANGGAL_PEMBUATAN, TIPE_HIBURAN, DESKRIPSI, PERTANYAAN, JAWABAN)
+    $sql = "INSERT INTO data_survey (JUDUL_SURVEY, TANGGAL_PEMBUATAN, TIPE_HIBURAN, DESKRIPSI, PERTANYAAN, JAWABAN)
         VALUES ('$nama_survey', '$tanggal_pembuatan', '$tipe_hiburan', '$deskripsi_survey', '$pertanyaan_survey', '$jawaban_survey')";
 
 
@@ -135,7 +135,7 @@ if (isset($_POST['SUBMIT'])) {
 }
 
 
-$result = $db->query("SELECT * FROM data_siswa");
+$result = $db->query("SELECT * FROM data_survey");
 
 
 

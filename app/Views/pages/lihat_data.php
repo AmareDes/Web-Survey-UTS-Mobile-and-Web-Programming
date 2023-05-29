@@ -30,7 +30,7 @@
 
 <div>
 
-    <h1 class="style2">Data Pendaftaran Siswa</h1>
+    <h1 class="style2">Data Survey</h1>
     <table border="2" cellpadding="10" cellspacing="1">
         <tr bgcolor="yellow">
             <th rowspan="1">Judul Survey</th>
@@ -43,14 +43,14 @@
 
         <?php
         $db = new mysqli("localhost", "root", "", "codeigniter4");
-        $result = $db->query("SELECT * FROM data_siswa");
+        $result = $db->query("SELECT * FROM data_survey");
 
         if (!$result) {
             printf("Error: %s\n", mysqli_error($db));
             exit();
         }
         foreach ($result as $row) {
-            //echo $row ["NAMA"]."<br>";
+            //echo $row ["JUDUL_SURVEY"]."<br>";
 
         ?>
 
