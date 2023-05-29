@@ -112,7 +112,7 @@
 </body>
 </table>
 <?php
-$db = new mysqli("localhost", "root", "", "codeigniter4");
+$db = new mysqli("localhost", "root", "", "uts_survey");
 
 if (isset($_POST['SUBMIT'])) {
 

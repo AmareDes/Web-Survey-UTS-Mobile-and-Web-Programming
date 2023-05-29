@@ -42,7 +42,7 @@
         </tr>
 
         <?php
-        $db = new mysqli("localhost", "root", "", "codeigniter4");
+        $db = new mysqli("localhost", "root", "", "uts_survey");
         $result = $db->query("SELECT * FROM data_survey");
 
         if (!$result) {
