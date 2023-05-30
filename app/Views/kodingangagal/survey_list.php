@@ -1,6 +1,5 @@
 <?= $this->extend('layout/template'); ?>
 
-<?= $this->section('konten'); ?>
 <div class="container">
     <div class="row">
         <div class="col">
@@ -60,4 +59,3 @@
         </div>
     </div>
 </div>
-<?= $this->endSection('konten'); ?>

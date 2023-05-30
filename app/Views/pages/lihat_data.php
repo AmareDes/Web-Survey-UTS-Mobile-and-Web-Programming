@@ -43,7 +43,7 @@
 
         <?php
         $db = new mysqli("localhost", "root", "", "uts_survey");
-        $result = $db->query("SELECT * FROM data_survey");
+        $result = $db->query("SELECT ds.JUDUL_SURVEY, ds.TANGGAL_PEMBUATAN, ds.TIPE_HIBURAN, ds.DESKRIPSI, dp.PERTANYAAN, dj.JAWABAN FROM data_survey ds LEFT JOIN data_pertanyaan dp ON ds.ID_SURVEY = dp.ID_SURVEY LEFT JOIN data_jawaban dj ON dp.ID_SURVEY = dj.ID_SURVEY");
 
         if (!$result) {
             printf("Error: %s\n", mysqli_error($db));

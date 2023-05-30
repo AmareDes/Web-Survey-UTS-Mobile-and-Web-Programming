@@ -38,8 +38,34 @@
 
 <body style="background-image: url(https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg);">
     <script language="javascript">
-        function tampil() {
-            alert(document.getElementById("JUDUL_SURVEY").value);
+        function addQuestion() {
+            var questionDiv = document.createElement("div");
+
+            var questionLabel = document.createElement("label");
+            questionLabel.innerHTML = "Pertanyaan";
+            var questionInput = document.createElement("textarea");
+            questionInput.setAttribute("name", "PERTANYAAN[]");
+            questionInput.setAttribute("cols", "50");
+            questionInput.setAttribute("rows", "1");
+
+            questionDiv.appendChild(questionLabel);
+            questionDiv.appendChild(document.createElement("br"));
+            questionDiv.appendChild(questionInput);
+            questionDiv.appendChild(document.createElement("br"));
+
+            var removeButton = document.createElement("button");
+            removeButton.innerHTML = "Hapus Pertanyaan";
+            removeButton.setAttribute("type", "button");
+            removeButton.setAttribute("onclick", "removeQuestion(this)");
+
+            questionDiv.appendChild(removeButton);
+
+            document.getElementById("questionsContainer").appendChild(questionDiv);
+        }
+
+        function removeQuestion(button) {
+            var questionDiv = button.parentNode;
+            questionDiv.parentNode.removeChild(questionDiv);
         }
     </script>
     <form method="post" enctype="multipart/form-data">
@@ -81,36 +107,30 @@
                     <tr>
                         <td><label style="vertical-align: top;">Deskripsi</label></td>
                         <td>:</td>
-                        <td><textarea name="DESKRIPSI" id="PERTANYAAN" cols="50" rows="5"></textarea></td>
-                    </tr>
-                    <tr>
-                        <td><label style="vertical-align: top;">Pertanyaan</label></td>
-                        <td>:</td>
-                        <td><textarea name="PERTANYAAN" id="PERTANYAAN" cols="50" rows="1"></textarea></td>
+                        <td><textarea name="DESKRIPSI" cols="50" rows="5"></textarea></td>
                     </tr>
 
                     <tr>
-                        <td><label>Jawaban</label></td>
+                        <td><label style="vertical-align: top;">Pertanyaan</label></td>
                         <td>:</td>
-                        <td><input type="radio" name="JAWABAN" value="Sangat Jelek"> Sangat Jelek
-                            <input type="radio" name="JAWABAN" value="Jelek"> Jelek
-                            <input type="radio" name="JAWABAN" value="Netral"> Netral
-                            <input type="radio" name="JAWABAN" value="Bagus"> Bagus
-                            <input type="radio" name="JAWABAN" value="Sangat Bagus"> Sangat Bagus
+                        <td id="questionsContainer">
+                            <textarea name="PERTANYAAN[]" cols="50" rows="1"></textarea>
                         </td>
                     </tr>
 
                     <tr>
+                        <td><button type="button" onclick="addQuestion()">Tambah Pertanyaan</button></td>
                         <td><input type="submit" name="SUBMIT" value="SUBMIT"></td>
                     </tr>
-
-
                 </table>
             </fieldset>
         </div>
     </form>
 </body>
-</table>
+
+</html>
+
+
 <?php
 $db = new mysqli("localhost", "root", "", "uts_survey");
 
@@ -121,24 +141,40 @@ if (isset($_POST['SUBMIT'])) {
     $tipe_hiburan = $_POST['TIPE_HIBURAN'];
     $deskripsi_survey = $_POST['DESKRIPSI'];
     $pertanyaan_survey = $_POST['PERTANYAAN'];
-    $jawaban_survey = $_POST['JAWABAN'];
 
-    $sql = "INSERT INTO data_survey (JUDUL_SURVEY, TANGGAL_PEMBUATAN, TIPE_HIBURAN, DESKRIPSI, PERTANYAAN, JAWABAN)
-        VALUES ('$nama_survey', '$tanggal_pembuatan', '$tipe_hiburan', '$deskripsi_survey', '$pertanyaan_survey', '$jawaban_survey')";
+    // Loop through the questions and answers arrays to insert each question and answer
+    foreach ($pertanyaan_survey as $key => $pertanyaan) {
 
 
-    if ($db->query($sql) === TRUE) {
-        echo "Data telah tersimpan";
-    } else {
-        echo "Error: " . $sql . "<br>" . $db->error;
+        $sql = "INSERT INTO data_survey (JUDUL_SURVEY, TANGGAL_PEMBUATAN, TIPE_HIBURAN, DESKRIPSI)
+            VALUES ('$nama_survey', '$tanggal_pembuatan', '$tipe_hiburan', '$deskripsi_survey')";
+
+        if ($db->query($sql) !== TRUE) {
+            echo "Error: " . $sql . "<br>" . $db->error;
+        } else {
+            $lastSurveyID = $db->insert_id; // Get the ID of the last inserted survey
+
+            // Insert each question into data_pertanyaan table
+            foreach ($pertanyaan_survey as $key => $pertanyaan) {
+                $sql = "INSERT INTO data_pertanyaan (ID_SURVEY, PERTANYAAN)
+                        VALUES ('$lastSurveyID', '$pertanyaan')";
+
+                if ($db->query($sql) !== TRUE) {
+                    echo "Error: " . $sql . "<br>" . $db->error;
+                }
+            }
+
+            echo "Data telah tersimpan";
+            exit(header("Location: " . $_SERVER['REQUEST_URI']));
+        }
     }
+
+    echo "Data telah tersimpan";
+    exit(header("Location: " . $_SERVER['REQUEST_URI']));
 }
 
 
 $result = $db->query("SELECT * FROM data_survey");
-
-
-
 
 if (!$result) {
     printf("Error: %s\n", mysqli_error($db));
@@ -147,5 +183,6 @@ if (!$result) {
 ?>
 
 </html>
+
 
 <?= $this->endSection('konten'); ?>

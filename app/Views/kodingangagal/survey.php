@@ -1,14 +1,12 @@
 <?= $this->extend('layout/template'); ?>
-
-<?= $this->section('konten'); ?>
 <div class="container">
     <div class="row">
         <div class="col">
             <h1>Survey</h1>
             <br>
 
-            <!-- Tambahkan kodingan untuk menampilkan form survei di sini -->
-            <h2>Buat Survei Baru</h2>
+            
+            <!-- <h2>Buat Survei Baru</h2>
             <?php if (session()->has('success')) : ?>
                 <div><?= session()->get('success') ?></div>
             <?php endif; ?>
@@ -20,8 +18,8 @@
                 <label for="date">Tanggal Dibuat:</label><br>
                 <input type="date" name="date" id="date" required><br><br>
 
-                <!-- Tambahkan kodingan untuk pertanyaan -->
-                <h3>Pertanyaan</h3>
+                
+                <h3>Pertanyaan</h3> -->
                 <div id="pertanyaan-container">
                     <div class="pertanyaan">
                         <label for="pertanyaan">Pertanyaan:</label><br>
@@ -31,7 +29,7 @@
                             <option value="">Pilih Tipe Pertanyaan</option>
                             <option value="skala_likert">Skala Likert</option>
                             <option value="jawaban_pendek">Jawaban Pendek</option>
-                            <!-- Tambahkan tipe pertanyaan lainnya jika diperlukan -->
+                            
                         </select><br><br>
                         <div class="options"></div>
                         <input type="hidden" name="id_pertanyaan[]" value="">
@@ -143,4 +141,3 @@
         questionDiv.remove();
     }
 </script>
-<?= $this->endSection('konten'); ?>
